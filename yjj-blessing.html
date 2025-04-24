@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>YJJ的代码库,找寻那段404的时光</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+        <style>
+            /* 程序员浪漫主题样式 */
+            :root {
+                --primary-pink: #FF6B92;  /* 心动粉 */
+                --secondary-orange: #FFD782;  /* 承诺橙 */
+                --tertiary-teal: #81E6D9;  /* 母爱青 */
+                --code-gray: #2D3748;
+                --bg-pattern: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23f8fafc" fill-opacity="0.1"%3E%3Cpath d="M0 40L40 0H20L0 20M40 40V20L20 40Z"/%3E%3C/g%3E%3C/svg%3E');
+            }
+
+            body {
+                background: var(--bg-pattern), linear-gradient(135deg, var(--primary-pink) 25%, var(--secondary-orange) 100%);
+                font-family: 'Fira Code', monospace;
+                line-height: 1.6;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                color: var(--code-gray);
+                overflow-x: hidden;
+            }
+
+            .container {
+                width: 90%;
+                max-width: 1200px;
+                padding: 2rem;
+                position: relative;
+                z-index: 10;
+            }
+
+            /* 代码风格标题 */
+            .title-code {
+                font-size: 2.5rem;
+                background: linear-gradient(45deg, var(--primary-pink), var(--tertiary-teal));
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                margin: 2rem 0;
+                display: inline-block;
+                position: relative;
+            }
+
+            .title-code::before {
+                content: "/* ";
+                color: var(--primary-pink);
+                font-size: 0.8em;
+                position: absolute;
+                left: -1.5rem;
+                top: 0.2rem;
+            }
+
+            .title-code::after {
+                content: " */";
+                color: var(--tertiary-teal);
+                font-size: 0.8em;
+                position: absolute;
+                right: -1.5rem;
+                top: 0.2rem;
+            }
+
+            /* 时光胶囊卡片 */
+            .time-capsule {
+                width: 100%;
+                max-width: 800px;
+                margin: 2rem 0;
+                padding: 2rem;
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 15px;
+                box-shadow: 0 8px 24px rgba(255, 107, 146, 0.15);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .stage-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 1.5rem;
+            }
+
+            .stage-number {
+                font-size: 1.2rem;
+                color: var(--code-gray);
+                opacity: 0.7;
+                display: flex;
+                align-items: center;
+            }
+
+            .stage-number::before {
+                content: "Stage ";
+                font-weight: 500;
+            }
+
+            .heart-code {
+                width: 30px;
+                height: 30px;
+                background: var(--primary-pink);
+                clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+                animation: heartbeat 1.5s infinite;
+            }
+
+            /* 代码块样式 */
+            .code-block {
+                background: #f8fafc;
+                padding: 1.5rem;
+                border-radius: 10px;
+                font-size: 1.1rem;
+                line-height: 1.8;
+                position: relative;
+                margin: 1rem 0;
+            }
+
+            .code-block::before {
+                content: "▶";
+                color: var(--primary-pink);
+                font-size: 1.2rem;
+                position: absolute;
+                left: -1.5rem;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .keyline {
+                color: var(--secondary-orange);
+                font-weight: 600;
+            }
+
+            /* 动态爱心粒子 */
+            .floating-heart {
+                position: fixed;
+                width: 15px;
+                height: 15px;
+                background: var(--primary-pink);
+                clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+                opacity: 0.2;
+                animation: float 20s linear infinite;
+            }
+
+            @keyframes heartbeat {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+
+            @keyframes float {
+                0% { transform: translateY(-100vh) translateX(random(-200, 200px)) rotate(0deg); }
+                100% { transform: translateY(100vh) translateX(random(-200, 200px)) rotate(720deg); }
+            }
+
+            /* 响应式断点 */
+            @media (max-width: 768px) {
+                body {
+                    font-size: 1rem;
+                }
+                .title-code {
+                    font-size: 2rem;
+                }
+            }
+        </style>
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <!-- 浮动爱心粒子（10个随机位置） -->
+        <script>
+            Array.from({ length: 10 }).forEach((_, i) => {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.appendChild(heart);
+            });
+        </script>
+
+        <div class="container">
+            <!-- 主标题 -->
+            <h1 class="title-code">
+                致 YJJ 的时光代码库
+            </h1>
+
+            <!-- 校服阶段 -->
+            <div class="time-capsule" data-stage="school">
+                <div class="stage-header">
+                    <div class="stage-number">
+                        <span class="heart-code"></span> 01
+                    </div>
+                    <h2 class="text-2xl font-bold text-pink-700">
+                        校服时光 · 初见 <span class="text-sm text-gray-500">(2015-2019)</span>
+                    </h2>
+                </div>
+                <div class="code-block">
+                    <p>
+                        还记得荆南中学的夏天吗？<br>
+                         你漫步在校园青春的模样，<br>
+                        阳光像<span class="keyline">二进制代码</span>般在发梢跳动，<br>
+                        我在<span class="keyline">青春命名空间</span>里定义了第一个心动变量：<br>
+                        <span class="text-pink-700">let firstLove = new Heartbeat('YJJ', { campus: 'Jingzhou High' });</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 婚纱阶段 -->
+            <div class="time-capsule" data-stage="wedding">
+                <div class="stage-header">
+                    <div class="stage-number">
+                        <span class="heart-code" style="background: var(--secondary-orange);"></span> 02
+                    </div>
+                    <h2 class="text-2xl font-bold text-orange-700">
+                        婚纱时刻 · 约定 <span class="text-sm text-gray-500">(2020.10.1)</span>
+                    </h2>
+                </div>
+                <div class="code-block">
+                    <p>
+                        当你挽着你的明星老爸走向那个神圣礼堂，<br>
+                        我也想象过当时头纱下的笑容比钻石更璀璨，<br>
+                        你身边的那位代替了我的座位，<br>
+                        我想他也心中默默念过，余生要与你奉陪。<br>
+                        为了你，我依然为这段<span class="keyline">人生关键代码</span>写下注释：<br>
+                        <span class="text-orange-700">// 愿你的循环没有bug，条件判断永远为true</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 母亲阶段 -->
+            <div class="time-capsule" data-stage="mother">
+                <div class="stage-header">
+                    <div class="stage-number">
+                        <span class="heart-code" style="background: var(--tertiary-teal);"></span> 03
+                    </div>
+                    <h2 class="text-2xl font-bold text-teal-700">
+                        母亲角色 · 温柔 <span class="text-sm text-gray-500">(2023.5.20)</span>
+                    </h2>
+                </div>
+                <div class="code-block">
+                    <p>
+                        抱着小宝贝轻哼歌谣时，<br>
+                        你的眼神是<span class="keyline">无法捕获的异常</span>，<br>
+                        从<span class="keyline">Girl类</span>继承到<span class="keyline">Mother接口</span>，<br>
+                        你让<span class="keyline">爱</span>有了最温暖的实现：<br>
+                        <span class="text-teal-700">class Love extends Infinity { constructor() { super('YJJ'); } }</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 程序员专属祝福 -->
+            <div class="mt-4 text-center">
+                <pre class="text-lg text-code-gray">
+console.<span class="text-pink-700">log</span>(`
+  ┌───────────────────────────────────┐
+  │  愿你每天都像代码提交一样顺利  │
+  │  每个角色都没有兼容性问题        │
+  │  幸福是永不终止的while循环       │
+  └───────────────────────────────────┘
+  ${'❤️'.repeat(3)} YJJ ${'❤️'.repeat(3)}
+`);
+                </pre>
+                <p class="text-sm text-gray-600 mt-2">
+                    —— 永远为你维护回忆分支的程序员Ma
+                </p>
+            </div>
+        </div>
+    </body>
+    </html>
+    
